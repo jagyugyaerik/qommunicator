@@ -1,4 +1,4 @@
-"""Top-level package for Qommunicatorr"""
+"""Top-level package for Qommunicator"""
 
 import pbr.version
 
