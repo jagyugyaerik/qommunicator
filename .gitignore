@@ -131,4 +131,4 @@ dmypy.json
 # Pycharm .ide
 .idea/
 
-shared-volume/
+start.sh
