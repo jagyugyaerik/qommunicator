@@ -23,7 +23,7 @@ class RemoteClient:
         self.remote_path = remote_path
         self.client = None
         self.scp = None
-        self.__upload_ssh_key()
+        # self.__upload_ssh_key()
 
     def __get_ssh_key(self) -> RSAKey:
         """Fetch locally stored SSH key."""
