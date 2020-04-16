@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 
 @click.command()
 @click.option('-f',
-              '--param-file',
+              '--param-file-path',
               default=PARAM_FILE_PATH,
               help='Location of the parameters')
 def main(param_file_path: str) -> None:
@@ -28,6 +28,8 @@ def main(param_file_path: str) -> None:
     log.info(f'Sge job params:{sge_job_params}')
     qsub_job_path = os.path.join(sge_job_params.working_dir_path,
                                  sge_job_params.job_name)
+    for env in os.environ.keys():
+        log.info(f'{env}: {os.environ[env]}')
     qsub_job = render_qsub_template(sge_job_params)
     create_qsub_job_file(qsub_job_path, qsub_job)
 

@@ -25,15 +25,21 @@ SgeJobParams = NamedTuple('SgeJobParams',
 
 def generate_sge_job_params(param_file_path):
     with open(param_file_path, 'r') as json_file:
-        params = SgeJobParams(**json.load(json_file))
+        params = json.load(json_file)
     container_working_directory = os.path.join(SHARED_VOLUME_PATH,
-                                               params.job_name)
-    return SgeJobParams(job_name=params.job_name,
+                                               'sge-jobs',
+                                               params['job_name'])
+    # FIXME
+    golden_binary_path = os.path.join(SHARED_VOLUME_PATH,
+                                      'golden_binary')
+    golden_reference_path = os.path.join(SHARED_VOLUME_PATH,
+                                         'golden_references')
+    return SgeJobParams(job_name=params['job_name'],
                         shell_binary_path='/bin/bash',
-                        threads=params.threads,
-                        que=params.que,
-                        golden_binary_path=params.golden_binary_path,
-                        golden_reference_path=params.golden_reference_path,
+                        threads=params['threads'],
+                        que=params['que'],
+                        golden_binary_path=golden_binary_path,
+                        golden_reference_path=golden_reference_path,
                         input_path=os.path.join(container_working_directory,
                                                 'input'),
                         working_dir_path=container_working_directory,
@@ -45,7 +51,7 @@ def generate_sge_job_params(param_file_path):
                                                 'error'),
                         reference_path=os.path.join(
                             container_working_directory, 'ref'),
-                        pipeline=params.pipeline)
+                        pipeline=params['pipeline'])
 
 
 def render_qsub_template(params: SgeJobParams) -> str:
